@@ -50,7 +50,7 @@ public class JDLParserTest {
                 throw new Exception("File not found!");
             }
             java.nio.file.Path path = java.nio.file.Paths.get(url.toURI());
-            return new String(java.nio.file.Files.readAllBytes(path));
+            return java.nio.file.Files.readString(path);
         } catch (Exception e) {
             e.printStackTrace();
         }
