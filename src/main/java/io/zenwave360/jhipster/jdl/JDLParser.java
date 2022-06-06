@@ -12,12 +12,20 @@ import javax.swing.plaf.synth.SynthDesktopIconUI;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JDLParser {
 
     public static Map<String, Object> parseJDL(String JDL) throws IOException {
+        return parseJDL(JDL, Collections.emptyMap());
+    }
+
+    public static Map<String, Object> parseJDL(String JDL, Map<String, String> configuration) throws IOException {
         System.setProperty("polyglot.engine.WarnInterpreterOnly", "false");
         String jsCode = loadClassPathFile("io/zenwave360/jhipster/jdl/jdl-parser.js");
         Source jdlParsedJsSource = Source.newBuilder(JavaScriptLanguage.ID, jsCode, "jdl-parser.js").build();
@@ -26,7 +34,7 @@ public class JDLParser {
             Value parseJDL = context.getBindings(JavaScriptLanguage.ID).getMember("parseJDL");
             Value returned = null;
             try {
-               returned = parseJDL.execute(JDL);
+               returned = parseJDL.execute(JDL, configuration);
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -43,14 +51,10 @@ public class JDLParser {
     }
 
     private static String loadClassPathFile(String fileName) throws IOException {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        java.net.URL url = classLoader.getResource(fileName);
         try {
-            java.nio.file.Path path = java.nio.file.Paths.get(url.toURI());
-            return java.nio.file.Files.readString(path);
-        } catch (URISyntaxException e) {
+            return new String(JDLParser.class.getClassLoader().getResourceAsStream(fileName).readAllBytes(), StandardCharsets.UTF_8);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 }
