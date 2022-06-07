@@ -31,6 +31,8 @@ const CommonDBTypes = {
   DOUBLE: 'Double',
   UUID: 'UUID',
   ENUM: 'Enum',
+  ENTITY: 'Entity',
+  ENTITY_ARRAY: 'EntityArray',
   BOOLEAN: 'Boolean',
   LOCAL_DATE: 'LocalDate',
   ZONED_DATE_TIME: 'ZonedDateTime',
@@ -61,6 +63,8 @@ const CommonDBValidations = {
   Float: new Set([REQUIRED, UNIQUE, MIN, MAX]),
   Double: new Set([REQUIRED, UNIQUE, MIN, MAX]),
   Enum: new Set([REQUIRED, UNIQUE]),
+  Entity: new Set([REQUIRED]),
+  EntityArray: new Set([REQUIRED, MINLENGTH, MAXLENGTH]),
   Boolean: new Set([REQUIRED, UNIQUE]),
   LocalDate: new Set([REQUIRED, UNIQUE]),
   ZonedDateTime: new Set([REQUIRED, UNIQUE]),
@@ -99,12 +103,15 @@ function isBlobType(type) {
   );
 }
 
-function hasValidation(type, validation, isAnEnum) {
+function hasValidation(type, validation, isAnEnum, isAnEntity) {
   if (!type || !validation) {
     throw new Error('The passed type and value must not be nil.');
   }
   if (isAnEnum) {
     type = 'Enum';
+  }
+  if (isAnEntity) {
+    type = 'Entity';
   }
   return isCommonDBType(type) && CommonDBValidations[type].has(validation);
 }

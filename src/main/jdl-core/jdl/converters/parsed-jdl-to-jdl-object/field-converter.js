@@ -35,6 +35,8 @@ function convertField(field) {
   const name = lowerFirst(field.name);
   const jdlField = new JDLField({
     name,
+    isEnum: field.isEnum,
+    isEntity: field.isEntity,
     type: field.type,
   });
   if (field.javadoc) {

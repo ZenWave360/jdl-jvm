@@ -106,19 +106,20 @@ function createValidator(jdlObject, applicationSettings = {}, logger = console, 
         );
       }
       const typeCheckingFunction = getTypeCheckingFunction(entityName, applicationSettings);
-      if (!jdlObject.hasEnum(jdlField.type) && !typeCheckingFunction(jdlField.type)) {
+      const isAnEnum = jdlObject.hasEnum(jdlField.type);
+      const isAnEntity = jdlObject.hasEntity(jdlField.type);
+      if (!(isAnEnum || isAnEntity) && !typeCheckingFunction(jdlField.type)) {
         throw new Error(`The type '${jdlField.type}' is an unknown field type for field '${fieldName}' of entity '${entityName}'.`);
       }
-      const isAnEnum = jdlObject.hasEnum(jdlField.type);
-      checkForValidationErrors(jdlField, isAnEnum);
+      checkForValidationErrors(jdlField, isAnEnum, isAnEntity);
     });
   }
 
-  function checkForValidationErrors(jdlField, isAnEnum) {
+  function checkForValidationErrors(jdlField, isAnEnum, isAnEntity) {
     const validator = new ValidationValidator();
     jdlField.forEachValidation(jdlValidation => {
       validator.validate(jdlValidation);
-      if (!FieldTypes.hasValidation(jdlField.type, jdlValidation.name, isAnEnum)) {
+      if (!FieldTypes.hasValidation(jdlField.type, jdlValidation.name, isAnEnum, isAnEntity)) {
         throw new Error(`The validation '${jdlValidation.name}' isn't supported for the type '${jdlField.type}'.`);
       }
     });

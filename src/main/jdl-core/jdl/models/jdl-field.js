@@ -25,8 +25,12 @@ module.exports = class JDLField {
     if (!merged.name || !merged.type) {
       throw new Error('The field name and type are mandatory to create a field.');
     }
+    const typeTokens = merged.type.split('[]');
     this.name = merged.name;
-    this.type = merged.type;
+    this.type = typeTokens[0];
+    this.isEnum = merge.isEnum;
+    this.isEntity = merged.isEntity;
+    this.isArray = typeTokens.length === 2;
     this.comment = merged.comment;
     this.validations = merged.validations;
     this.options = merged.options;

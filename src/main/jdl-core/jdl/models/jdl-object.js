@@ -131,6 +131,11 @@ module.exports = class JDLObject {
     return Object.keys(this.entities);
   }
 
+  hasEntity(entityName, entityNames) {
+    entityNames = entityNames || this.getEntityNames();
+    return entityNames.includes(entityName) || entityNames.includes(entityName.replace(/\[\]$/gm, ''));
+  }
+
   forEachEntity(passedFunction) {
     if (!passedFunction) {
       return;

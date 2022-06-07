@@ -26,10 +26,15 @@ module.exports = class JDLEntity {
     if (!merged.name) {
       throw new Error('The entity name is mandatory to create an entity.');
     }
+    this.options = {};
     this.name = merged.name;
     this.tableName = merged.tableName || merged.name;
     this.fields = merged.fields;
     this.comment = merged.comment;
+  }
+
+  addAnnotation(annotationOption) {
+    this.options[annotationOption.name] = annotationOption.value || true;
   }
 
   /**

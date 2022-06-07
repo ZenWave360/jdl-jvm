@@ -124,6 +124,11 @@ function getJDLFieldsFromParsedEntity(entity) {
   const fields = [];
   for (let i = 0; i < entity.body.length; i++) {
     const field = entity.body[i];
+    field.isEntity = jdlObject.hasEntity(
+      field.type,
+      parsedContent.entities.map(e => e.name)
+    );
+    field.isEnum = jdlObject.hasEnum(field.type);
     const jdlField = convertField(field);
     jdlField.validations = getValidations(field);
     jdlField.options = convertAnnotationsToOptions(field.annotations);
@@ -138,24 +143,25 @@ function addOptionsFromEntityAnnotations() {
     const annotations = entity.annotations;
     annotations.forEach(annotation => {
       let annotationName = _.lowerFirst(annotation.optionName);
+      let annotationOption = null;
       if (annotation.type === 'UNARY') {
-        jdlObject.addOption(
-          new JDLUnaryOption({
-            name: annotationName,
-            entityNames: [entityName],
-          })
-        );
+        annotationOption = new JDLUnaryOption({
+          name: annotationName,
+          entityNames: [entityName],
+        });
       } else if (annotation.type === 'BINARY') {
         if (annotationName === 'paginate') {
           annotationName = BinaryOptions.Options.PAGINATION;
         }
-        jdlObject.addOption(
-          new JDLBinaryOption({
-            name: annotationName,
-            value: annotation.optionValue,
-            entityNames: [entityName],
-          })
-        );
+        annotationOption = new JDLBinaryOption({
+          name: annotationName,
+          value: annotation.optionValue,
+          entityNames: [entityName],
+        });
+      }
+      if (annotationOption) {
+        jdlObject.addOption(annotationOption);
+        jdlObject.entities[entityName].addAnnotation(annotationOption);
       }
     });
   });

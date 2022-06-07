@@ -38,3 +38,12 @@ You can bundle `target/classes/io/zenwave360/jhipster/jdl/jdl-parser.js` using:
 
 - `mvn generate-resources` from project root, or
 - `npm generate-resources` from `src/main/jdl-core` folder
+
+## Custom Extensions
+
+### In JDL Language
+- Field Types: in addition to enums and basic types it allows other entities (and arrays of) as field type, this is useful for embedded fields.
+
+### In Parsed Result Object
+- Adds annotation options to the entity object
+- Adds `isEnum`, `isEntity` and `isArray` to entity fields
