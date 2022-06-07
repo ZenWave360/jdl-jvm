@@ -21,7 +21,7 @@ const { MapperTypes, PaginationTypes, SearchTypes, ServiceTypes } = require('./e
 const { MAPSTRUCT } = MapperTypes;
 const NO_MAPPER = MapperTypes.NO;
 
-const { SERVICE_CLASS, SERVICE_IMPL } = ServiceTypes;
+const { SERVICE_CLASS, SERVICE_IMPL, SERVICE_NAME } = ServiceTypes;
 const NO_SERVICE = ServiceTypes.NO;
 
 const { PAGINATION, INFINITE_SCROLL } = PaginationTypes;
@@ -43,7 +43,7 @@ const optionNames = Object.values(Options);
 
 const Values = {
   [Options.DTO]: { MAPSTRUCT, NO: NO_MAPPER },
-  [Options.SERVICE]: { SERVICE_CLASS, SERVICE_IMPL, NO: NO_SERVICE },
+  [Options.SERVICE]: { SERVICE_CLASS, SERVICE_IMPL, NO: NO_SERVICE, SERVICE_NAME },
   [Options.PAGINATION]: {
     PAGINATION,
     'INFINITE-SCROLL': INFINITE_SCROLL,
@@ -82,14 +82,17 @@ function forEach(passedFunction) {
 function exists(passedOption, passedValue) {
   return (
     !Object.values(Options).includes(passedOption) ||
-    Object.values(Options).some(
-      option =>
+    Object.values(Options).some(option => {
+      const regex = Object.values(Values[option]).find(value => value instanceof RegExp);
+      return (
         passedOption === option &&
         (passedOption === Options.MICROSERVICE ||
           passedOption === Options.ANGULAR_SUFFIX ||
           passedOption === Options.CLIENT_ROOT_FOLDER ||
-          Object.values(Values[option]).includes(passedValue))
-    )
+          Object.values(Values[option]).includes(passedValue) ||
+          (regex && regex.test(passedValue)))
+      );
+    })
   );
 }
 

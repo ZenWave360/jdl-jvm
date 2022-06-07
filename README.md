@@ -41,9 +41,12 @@ You can bundle `target/classes/io/zenwave360/jhipster/jdl/jdl-parser.js` using:
 
 ## Custom Extensions
 
-### In JDL Language
-- Field Types: in addition to enums and basic types it allows other entities (and arrays of) as field type, this is useful for embedded fields.
+This wrapper includes some extensions compatible with the original JDL format, meaning that valid JDL will produce the same jdlObject as the upstream jdl library.
 
-### In Parsed Result Object
+### Extensions In JDL Language
+- Field Types: in addition to enums and basic types it allows other entities (and arrays of) as field type, this is useful for embedded fields which are not relations.
+- Service: in addition to `serviceClass` and `serviceImpl` it allows configuring  free text value as `serviceName` to allow grouping multiple entities in a given service. Then it's up to each generator to generate an interface or just an implementation class.
+
+### Extensions In Parsed Result Object
 - Adds annotation options to the entity object
 - Adds `isEnum`, `isEntity` and `isArray` to entity fields

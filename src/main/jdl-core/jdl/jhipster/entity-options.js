@@ -25,6 +25,7 @@ const ServiceTypes = {
   SERVICE_CLASS: 'serviceClass',
   SERVICE_IMPL: 'serviceImpl',
   NO: 'no',
+  SERVICE_NAME: /\.*/,
 };
 
 const PaginationTypes = {
