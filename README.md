@@ -2,8 +2,11 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.zenwave360.jhipster/jdl-jvm.svg?label=Maven%20Central&logo=apachemaven)](https://search.maven.org/artifact/io.github.zenwave360.jhipster/jdl-jvm)
 
-Java wrapper for [JHipster Domain Language JDL](https://www.jhipster.tech/jdl/intro) using Graalvm JS Truffle Language...
+Java wrapper for the [JHipster Domain Language JDL](https://www.jhipster.tech/jdl/intro) using Graalvm JS Truffle Language...
 
+This is part of the [ZenWave Code Generator](https://github.com/ZenWave360/zenwave-code-generator) project: 
+
+> Configurable and extensible Code Generator for DDD and API-First modeling with support for JHipster JDL, AsyncAPI and OpenAPI
 
 ## Usage
 
@@ -35,4 +38,3 @@ You can bundle `target/classes/io/zenwave360/jhipster/jdl/jdl-parser.js` using:
 
 - `mvn generate-resources` from project root, or
 - `npm generate-resources` from `src/main/jdl-core` folder
-
