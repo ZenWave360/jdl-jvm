@@ -32,8 +32,3 @@ function checkForErrors(jdlObject, configuration, logger = console) {
   }
   validator.checkForErrors();
 }
-
-// eslint-disable-next-line import/order
-// const jdlString = require('fs').readFileSync(process.argv[2], 'utf8');
-
-// parseJDL(jdlString);
