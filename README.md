@@ -4,7 +4,7 @@
 
 Java wrapper for the [JHipster Domain Language JDL](https://www.jhipster.tech/jdl/intro) using Graalvm JS Truffle Language...
 
-This is part of the [ZenWave Code Generator](https://github.com/ZenWave360/zenwave-code-generator) project: 
+This is part of the [ZenWave Code Generator](https://github.com/ZenWave360/zenwave-code-generator) project:
 
 > Configurable and extensible Code Generator for DDD and API-First modeling with support for JHipster JDL, AsyncAPI and OpenAPI
 
@@ -44,9 +44,12 @@ You can bundle `target/classes/io/zenwave360/jhipster/jdl/jdl-parser.js` using:
 This wrapper includes some extensions compatible with the original JDL format, meaning that valid JDL will produce the same jdlObject as the upstream jdl library.
 
 ### Extensions In JDL Language
+
 - Field Types: in addition to enums and basic types it allows other entities (and arrays of) as field type, this is useful for embedded fields which are not relations.
-- Service: in addition to `serviceClass` and `serviceImpl` it allows configuring  free text value as `serviceName` to allow grouping multiple entities in a given service. Then it's up to each generator to generate an interface or just an implementation class.
+- Service: in addition to `serviceClass` and `serviceImpl` it allows configuring free text value as `serviceName` to allow grouping multiple entities in a given service. Then it's up to each generator to generate an interface or just an implementation class.
 
 ### Extensions In Parsed Result Object
+
 - Adds annotation options to the entity object
 - Adds `isEnum`, `isEntity` and `isArray` to entity fields
+- Adds `className`, `instanceName`, `classNamePlural` and `instanceNamePlural` to entity fields
