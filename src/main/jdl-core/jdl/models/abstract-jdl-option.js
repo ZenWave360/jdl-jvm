@@ -27,11 +27,11 @@ class AbstractJDLOption {
       throw new Error("The option's name must be passed to create an option.");
     }
     this.name = merged.name;
-    this.entityNames = new Set(merged.entityNames);
+    this.entityNames = Array.from(new Set(merged.entityNames));
     if (this.entityNames.size === 0) {
       this.entityNames.add('*');
     }
-    this.excludedNames = new Set(merged.excludedNames);
+    this.excludedNames = Array.from(new Set(merged.excludedNames));
   }
 
   addEntityName(entityName) {

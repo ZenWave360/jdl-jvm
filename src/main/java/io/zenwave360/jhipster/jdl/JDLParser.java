@@ -15,8 +15,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JDLParser {
@@ -46,6 +48,8 @@ public class JDLParser {
         if(source instanceof Map) {
             source = new HashMap<>((Map) source);
             ((HashMap<String, Object>) source).entrySet().forEach(e -> e.setValue(copy(e.getValue())));
+        } else if(source instanceof List) {
+            source = new ArrayList<>((List) source);
         }
         return source;
     }

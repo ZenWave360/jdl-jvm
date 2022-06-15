@@ -29,7 +29,9 @@ function addAll(set, elements) {
   if (!elements || elements.length === 0) {
     return set;
   }
-  elements.forEach(element => set.add(element));
+  elements.forEach(element => {
+    typeof set.add === 'function' ? set.add(element) : set.push(element);
+  });
   return set;
 }
 
