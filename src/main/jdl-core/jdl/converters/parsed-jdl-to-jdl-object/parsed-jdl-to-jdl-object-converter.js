@@ -33,6 +33,7 @@ const { convertValidations } = require('./validation-converter');
 const { convertOptions } = require('./option-converter');
 const { convertRelationships } = require('./relationship-converter');
 const { convertDeployments } = require('./deployment-converter');
+const { error } = require('../../utils/objects/logger');
 
 module.exports = {
   parseFromConfigurationObject,
@@ -72,6 +73,7 @@ function parseFromConfigurationObject(configurationObject) {
   fillClassesAndFields();
   fillAssociations({ unidirectionalRelationships });
   fillOptions();
+  fillOptionsToEntities();
   return jdlObject;
 }
 
@@ -260,5 +262,45 @@ function fillUnaryAndBinaryOptions() {
   const convertedOptions = convertOptions(parsedContent.options, parsedContent.useOptions);
   convertedOptions.forEach(convertedOption => {
     jdlObject.addOption(convertedOption);
+  });
+}
+
+function backfillOptionsToEntities() {
+  const services = jdlObject.options.options.service;
+  if (services) {
+    Object.values(services).forEach(service => {
+      if (service.entityNames.length === 1 && service.entityNames[0] === '*') {
+        service.entityNames = Object.keys(jdlObject.entities).filter(entityName => !service.excludedNames.includes(entityName));
+      }
+      service.entityNames.forEach(entityName => {
+        const currentServiceAnnotation = jdlObject.entities[entityName].options.service;
+        if (currentServiceAnnotation && currentServiceAnnotation !== service.value) {
+          error(`The entity ${entityName} already has a different service option: ${currentServiceAnnotation} != ${service.value}.`);
+        } else {
+          jdlObject.entities[entityName].addAnnotation(service);
+        }
+      });
+    });
+  }
+}
+
+function fillOptionsToEntities() {
+  ['service', 'dto', 'search'].forEach(optionName => {
+    const options = jdlObject.options.options[optionName];
+    if (options) {
+      Object.values(options).forEach(option => {
+        if (option.entityNames.length === 1 && option.entityNames[0] === '*') {
+          option.entityNames = Object.keys(jdlObject.entities).filter(entityName => !option.excludedNames.includes(entityName));
+        }
+        option.entityNames.forEach(entityName => {
+          const currentAnnotation = jdlObject.entities[entityName].options[optionName];
+          if (currentAnnotation && currentAnnotation !== option.value) {
+            error(`The entity ${entityName} already has a different ${optionName} option: ${currentAnnotation} != ${option.value}.`);
+          } else {
+            jdlObject.entities[entityName].addAnnotation(option);
+          }
+        });
+      });
+    }
   });
 }

@@ -53,3 +53,4 @@ This wrapper includes some extensions compatible with the original JDL format, m
 - Adds annotation options to the entity object
 - Adds `isEnum`, `isEntity` and `isArray` to entity fields
 - Adds `className`, `instanceName`, `classNamePlural` and `instanceNamePlural` to entity fields
+- Fill globaly configured options (like service, dto ,search...) to entity options for consistency

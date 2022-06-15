@@ -83,7 +83,7 @@ function exists(passedOption, passedValue) {
   return (
     !Object.values(Options).includes(passedOption) ||
     Object.values(Options).some(option => {
-      const regex = Object.values(Values[option]).find(value => value instanceof RegExp);
+      const regex = Object.values(Values[option] || {}).find(value => value instanceof RegExp);
       return (
         passedOption === option &&
         (passedOption === Options.MICROSERVICE ||
