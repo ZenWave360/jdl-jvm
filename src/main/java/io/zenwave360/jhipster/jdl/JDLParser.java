@@ -44,6 +44,26 @@ public class JDLParser {
         }
     }
 
+    public static String jdlToMermaid(String JDL) throws IOException {
+        return jdlToMermaid(JDL, Collections.emptyMap());
+    }
+    public static String jdlToMermaid(String JDL, Map<String, String> configuration) throws IOException {
+        System.setProperty("polyglot.engine.WarnInterpreterOnly", "false");
+        String jsCode = loadClassPathFile("io/zenwave360/jhipster/jdl/jdl-parser.js");
+        Source jdlParsedJsSource = Source.newBuilder(JavaScriptLanguage.ID, jsCode, "jdl-parser.js").build();
+        try (Context context = Context.create(JavaScriptLanguage.ID)) {
+            context.eval(jdlParsedJsSource);
+            Value jdlToMermaid = context.getBindings(JavaScriptLanguage.ID).getMember("jdlToMermaid");
+            Value returned = null;
+            try {
+                returned = jdlToMermaid.execute(JDL, configuration);
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+            return returned.asString();
+        }
+    }
+
     private static Object copy(Object source) {
         if(source instanceof Map) {
             source = new HashMap<>((Map) source);

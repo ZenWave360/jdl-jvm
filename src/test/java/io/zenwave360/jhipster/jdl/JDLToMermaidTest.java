@@ -8,36 +8,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JDLParserTest {
+public class JDLToMermaidTest {
 
     @Test
-    public void testLoad21PointsJDL() throws IOException {
+    public void testExportToMermaid21PointsJDL() throws IOException {
         String jdlString = loadClassPathFile("jdl-samples-main/21-points.jh");
-        Map<String, Object> parsedJDL = JDLParser.parseJDL(jdlString);
-        Assert.assertNotNull(parsedJDL);
+        String mermaid = JDLParser.jdlToMermaid(jdlString);
+        Assert.assertNotNull(mermaid);
+        Assert.assertTrue(mermaid.startsWith("classDiagram"));
     }
 
     @Test
-    public void testLoad21PointsJDL_databaseType_SQL() throws IOException {
-        String jdlString = loadClassPathFile("jdl-samples-main/21-points.jh");
-        Map<String, Object> parsedJDL = JDLParser.parseJDL(jdlString, Map.of("databaseType", "sql"));
-        Assert.assertNotNull(parsedJDL);
-    }
-
-    @Test
-    public void testLoad21PointsJDL_databaseType_mongodb() throws IOException {
-        String jdlString = loadClassPathFile("jdl-samples-main/21-points.jh");
-        Map<String, Object> parsedJDL = JDLParser.parseJDL(jdlString, Map.of("databaseType", "mongodb"));
-        Assert.assertNotNull(parsedJDL);
-    }
-
-    @Test
-    public void testLoadAllJDLs() throws IOException {
+    public void testExportToMermaidAllJDLs() throws IOException {
         Collection<String> jdlFiles = Stream.of(new File("src/test/resources/jdl-samples-main").listFiles())
                 .filter(file -> !file.isDirectory() && (file.getName().endsWith(".jh") || file.getName().endsWith(".jdl")))
                 .map(f -> "jdl-samples-main/" + f.getName())
@@ -47,8 +33,9 @@ public class JDLParserTest {
             String jdlString = loadClassPathFile(jdlFile);
             try {
                 System.out.println("Parsing " + jdlFile + " ...");
-                Map<String, Object> parsedJDL = JDLParser.parseJDL(jdlString);
-                Assert.assertNotNull(parsedJDL);
+                String mermaid = JDLParser.jdlToMermaid(jdlString);
+                Assert.assertNotNull(mermaid);
+                Assert.assertTrue(mermaid.startsWith("classDiagram"));
             } catch (Exception e) {
                 exceptions.put(jdlFile, e);
             }

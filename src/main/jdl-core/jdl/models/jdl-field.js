@@ -28,7 +28,7 @@ module.exports = class JDLField {
     const typeTokens = merged.type.split('[]');
     this.name = merged.name;
     this.type = typeTokens[0];
-    this.isEnum = merge.isEnum;
+    this.isEnum = merged.isEnum;
     this.isEntity = merged.isEntity;
     this.isArray = typeTokens.length === 2;
     this.comment = merged.comment;

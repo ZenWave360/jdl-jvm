@@ -29,10 +29,10 @@
     "!*.spec.?(c|m)js"
   ],
   "scripts": {
-    "generate-resources": "npm run bundle && npm run copy-resources",
-    "copy-resources": "shx mkdir -p ../../../target/classes/io/zenwave360/jhipster/jdl && shx cp dist/* ../../../target/classes/io/zenwave360/jhipster/jdl",
     "bundle": "npm run webpack && npm run bundle:replace",
-    "bundle:replace": "replace \"^\\(\\(\\)=>\" \"const { parseJDL } = (()=>\" dist/jdl-parser.js && replace 'module.exports=' \"return \" dist/jdl-parser.js",
+    "bundle:replace": "replace \"^\\(\\(\\)=>\" \"const { parseJDL, jdlToMermaid } = (()=>\" dist/jdl-parser.js && replace 'module.exports=' \"return \" dist/jdl-parser.js",
+    "copy-resources": "shx mkdir -p ../../../target/classes/io/zenwave360/jhipster/jdl && shx cp dist/* ../../../target/classes/io/zenwave360/jhipster/jdl",
+    "generate-resources": "npm run bundle && npm run copy-resources",
     "webpack": "webpack --mode production"
   },
   "dependencies": {
