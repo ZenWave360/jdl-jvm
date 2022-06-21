@@ -19,7 +19,7 @@
 
 const merge = require('../utils/object-utils').merge;
 const { getTableNameFromEntityName } = require('../jhipster/entity-table-name-creator');
-const { upperFirst, lowerFirst, pluralize } = require('../utils/string-utils');
+const { upperFirst, lowerFirst, pluralize, kebabCase } = require('../utils/string-utils');
 
 module.exports = class JDLEntity {
   constructor(args) {
@@ -33,6 +33,8 @@ module.exports = class JDLEntity {
     this.instanceName = lowerFirst(this.name);
     this.classNamePlural = pluralize(this.className);
     this.instanceNamePlural = pluralize(this.instanceName);
+    this.kebabCase = kebabCase(this.name);
+    this.kebabCasePlural = kebabCase(this.classNamePlural);
     this.tableName = merged.tableName || merged.name;
     this.fields = merged.fields;
     this.comment = merged.comment;

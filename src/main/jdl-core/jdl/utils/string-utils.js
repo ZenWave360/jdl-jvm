@@ -20,6 +20,7 @@ const pluralize = require('pluralize');
 
 module.exports = {
   camelCase,
+  kebabCase,
   upperFirst,
   lowerFirst,
   pluralize,
@@ -32,6 +33,13 @@ function camelCase(string) {
   }
   const [firstLetter, ...rest] = string.replace(/[\W_]/g, '');
   return `${firstLetter.toLowerCase()}${rest.join('')}`;
+}
+
+function kebabCase(string) {
+  return string
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]/g, '-')
+    .toLowerCase();
 }
 
 function upperFirst(string) {
