@@ -37,7 +37,7 @@ Upstream JDL source code is located under `src/main/jdl-core` folder.
 You can bundle `target/classes/io/zenwave360/jhipster/jdl/jdl-parser.js` using:
 
 - `mvn generate-resources` from project root, or
-- `npm generate-resources` from `src/main/jdl-core` folder
+- `npm run generate-resources` from `src/main/jdl-core` folder
 
 ## Custom Extensions
 

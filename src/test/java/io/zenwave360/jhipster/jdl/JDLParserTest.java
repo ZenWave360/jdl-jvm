@@ -46,8 +46,11 @@ public class JDLParserTest {
         for (String jdlFile : jdlFiles) {
             String jdlString = loadClassPathFile(jdlFile);
             try {
-                System.out.println("Parsing " + jdlFile + " ...");
+                System.out.print("Parsing " + jdlFile + " ...");
+                long start = System.currentTimeMillis();
                 Map<String, Object> parsedJDL = JDLParser.parseJDL(jdlString);
+                long end = System.currentTimeMillis();
+                System.out.println(" took " + (end - start) + " ms");
                 Assert.assertNotNull(parsedJDL);
             } catch (Exception e) {
                 exceptions.put(jdlFile, e);
