@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,7 @@ public class JDLParser {
 
     private static Object copy(Object source) {
         if(source instanceof Map) {
-            source = new HashMap<>((Map) source);
+            source = new LinkedHashMap<>((Map) source);
             ((HashMap<String, Object>) source).entrySet().forEach(e -> e.setValue(copy(e.getValue())));
         } else if(source instanceof List) {
             source = new ArrayList<>((List) source);
