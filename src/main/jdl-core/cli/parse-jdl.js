@@ -10,7 +10,7 @@ module.exports = {
 };
 
 function parseJDL(jdlString, configuration = {}) {
-  configuration = { databaseType: 'sql', ...configuration }; // warning: options may be a java HashMap, we need this transformation
+  configuration = { databaseType: 'sql', unidirectionalRelationships: true, ...configuration }; // warning: options may be a java HashMap, we need this transformation
   const content = parseFromContent(jdlString);
   const jdlObject = getJDLObject(content, configuration);
   checkForErrors(jdlObject, configuration);
